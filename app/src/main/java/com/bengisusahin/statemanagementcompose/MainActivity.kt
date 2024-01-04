@@ -36,6 +36,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(){
+    var myString = remember{ mutableStateOf("") }
+
     Surface(modifier = Modifier.fillMaxSize()
     ) {
         Column(verticalArrangement = Arrangement.Center,
@@ -45,7 +47,9 @@ fun MainScreen(){
             Spacer(modifier = Modifier.padding(5.dp))
             SpecialText(string = "Android")
             Spacer(modifier = Modifier.padding(5.dp))
-            SpecialTextField()
+            SpecialTextField(myString.value){
+                myString.value = it //fonsiyonda o yüzden parametre olarak string istedik yani bana verilen stringe esitleyebiliyoruz
+            }
         }
     }
 
@@ -61,11 +65,9 @@ fun SpecialText(string: String){
 }
 
 @Composable
-fun SpecialTextField(){
-    var myString = remember{ mutableStateOf("") }
-    TextField(value = myString.value, onValueChange = {
-        myString.value = it
-    } )
+fun SpecialTextField(string: String, function:(String)->Unit){
+    TextField(value = string, onValueChange = function
+    )
 }
 
 @Preview(showBackground = true)
